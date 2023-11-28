@@ -1,48 +1,63 @@
 .user-info {
-  > .avatar {
+  >.avatar {
     display: flex;
     justify-content: center;
   }
 
-  > .name {
+  >.name {
     font-size: 27px;
     font-weight: 600;
   }
 
-  > .field {
+  >.field {
     display: flex;
   }
 
-  > .field + .company {
+  >.field+.company {
     margin-top: 24px;
   }
 
-  > .avatar + .name {
+  >.avatar+.name {
     margin-top: 24px;
   }
 
-  > .name + .field {
+  >.name+.field {
     margin-top: 16px;
   }
 
-  > .field > .icon {
+  >.field>.icon {
     flex: 0 0 16px;
   }
 
-  > .field > .value {
+  >.field>.value {
     color: #7a869a;
   }
 
-  > .company > .name {
+  >.company>.name {
     font-size: 18px;
     font-weight: 600;
   }
 
-  > .company > .catchphrase {
+  >.company>.catchphrase {
     font-style: italic;
   }
 
-  > .field > .icon + .value {
+  >.field>.icon+.value {
     margin-left: 8px;
+  }
+
+  >.posts {
+    margin-top: 2rem;
+
+    >.items {
+      max-height: 300px;
+      overflow: auto;
+    }
+
+    >.title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
   }
 }

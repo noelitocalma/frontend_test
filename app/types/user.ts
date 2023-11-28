@@ -27,3 +27,10 @@ export type Geo = {
   lat: string;
   lng: string;
 };
+
+export type UserPost = {
+  body: string;
+  id: string;
+  title: string;
+  userId: string;
+}
