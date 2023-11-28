@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "boring-avatars";
 import {
   FaRegCircleXmark,
@@ -9,6 +9,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa6";
 
+import Controls from "./controls";
 import Modal from "./modal";
 
 import { User } from "./types/user";
@@ -17,14 +18,14 @@ export type GalleryProps = {
   users: User[];
 };
 const Gallery = ({ users }: GalleryProps) => {
-  const [usersList, setUsersList] = useState(users);
+  const [usersList, setUsersList] = useState<User[]>(users);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = (id: number) => {
     const user = usersList.find((item) => item.id === id) || null;
 
-    if(user) {
+    if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
     }
@@ -37,7 +38,10 @@ const Gallery = ({ users }: GalleryProps) => {
 
   return (
     <div className="user-gallery">
-      <h1 className="heading">Users</h1>
+      <div className="heading">
+        <h1 className="title">Users</h1>
+        <Controls users={users} onSort={(values) => setUsersList([...values])} />
+      </div>
       <div className="items">
         {usersList.map((user, index) => (
           <div
@@ -56,6 +60,7 @@ const Gallery = ({ users }: GalleryProps) => {
             <div className="info">
               <div className="name">{user.name}</div>
               <div className="company">{user.company.name}</div>
+              <div className="email">{user.email}</div>
             </div>
           </div>
         ))}
