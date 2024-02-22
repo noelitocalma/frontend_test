@@ -11,6 +11,7 @@ export const useGetUsers = () => {
   })
 }
 
+
 export const useGetUserPost = ({ userId }: { userId?: number }) => {
   return useQuery<UserPost[]>(['users', userId], async function () {
     const response = await axios.create({ baseURL: JSON_PLACEHOLDER_API }).get<UserPost[]>('/posts', { params: { userId } })
