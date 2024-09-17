@@ -1,9 +1,14 @@
+"use client"
+
 import Image from "next/image";
 import styles from "./page.module.css";
 
 import Gallery from "./gallery";
+import { QueryClient, QueryClientProvider } from "react-query"
 
+export const queryClient = new QueryClient()
 export default function Home() {
+  // data from https://jsonplaceholder.typicode.com/users
   const users = [
     {
       id: 1,
@@ -238,7 +243,9 @@ export default function Home() {
   ];
   return (
     <main className={styles.main}>
-      <Gallery users={users} />
+      <QueryClientProvider client={queryClient}>
+        <Gallery />
+      </QueryClientProvider>
     </main>
   );
 }

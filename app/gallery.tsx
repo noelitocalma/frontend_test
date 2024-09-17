@@ -12,19 +12,24 @@ import {
 import Modal from "./modal";
 
 import { User } from "./types/user";
+import { useGetUserPost, useGetUsers } from "./apis/users";
 
 export type GalleryProps = {
   users: User[];
 };
-const Gallery = ({ users }: GalleryProps) => {
-  const [usersList, setUsersList] = useState(users);
+const Gallery = () => {
+  const { data: usersList, isLoading } = useGetUsers();
+  const [userId, setUserId] = useState<number>();
+  const { data: posts, isLoading: isLoadingPost } = useGetUserPost({ userId })
+
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = (id: number) => {
-    const user = usersList.find((item) => item.id === id) || null;
+    const user = usersList?.find((item) => item.id === id) || null;
+    setUserId(id);
 
-    if(user) {
+    if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
     }
@@ -35,11 +40,13 @@ const Gallery = ({ users }: GalleryProps) => {
     setIsModalOpen(false);
   };
 
+  if (isLoading) return <div>Loading</div>
+
   return (
     <div className="user-gallery">
       <h1 className="heading">Users</h1>
       <div className="items">
-        {usersList.map((user, index) => (
+        {usersList?.map((user, index) => (
           <div
             className="item user-card"
             key={index}
@@ -93,13 +100,13 @@ const Gallery = ({ users }: GalleryProps) => {
                   </div>
                   <div className="field">
                     <FaLocationDot className="icon" />
-                    <div className="data">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
+                    <div className="value">{`${selectedUser.address.street}, ${selectedUser.address.suite}, ${selectedUser.address.city}`}</div>
                   </div>
                   <div className="field">
                     <FaPhone className="icon" />
                     <div className="value">{selectedUser.phone}</div>
                   </div>
-                  <div className="fields">
+                  <div className="field">
                     <FaEnvelope className="icon" />
                     <div className="value">{selectedUser.email}</div>
                   </div>
@@ -107,6 +114,16 @@ const Gallery = ({ users }: GalleryProps) => {
                     <div className="name">{selectedUser.company.name}</div>
                     <div className="catchphrase">
                       {selectedUser.company.catchPhrase}
+                    </div>
+                  </div>
+
+                  <div className="posts">
+                    <div className="title">Posts: </div>
+                    {isLoadingPost && <div>loading post...</div>}
+                    <div className="items">
+                      {posts?.map((post, index) => (
+                        <div className="value">{index + 1}: {post.title}</div>
+                      ))}
                     </div>
                   </div>
                 </div>
